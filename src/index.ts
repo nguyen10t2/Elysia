@@ -6,7 +6,7 @@ import { authRoutes } from "./routes/authRoutes";
 const hostname: string = Bun.env.IP_ADDRESS || '127.0.0.1';
 const port: number = Number(Bun.env.PORT ||'3000');
 
-const app = new Elysia()
+new Elysia()
   .use(pluginDB)
   .get('/', () => 'Elysia Server is running!')
   .use(authRoutes)

@@ -2,7 +2,7 @@ import Elysia from "elysia";
 import { ContextStore } from "../types/context";
 
 
-export const authorizationPlugins = (role: number) => (app: Elysia) => app
+export const authorizationPlugins = (role: number = 1) => (app: Elysia) => app
     .onBeforeHandle(async (ctx) => {
         const user = (ctx.store as ContextStore).user || undefined;
         if (!user) {

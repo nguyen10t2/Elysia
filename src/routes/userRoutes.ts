@@ -17,7 +17,7 @@ export const userRoutes = new Elysia({
     sign: 'refreshtoken',
   }})
   .use(authenticationPlugins)
-  .use(authorizationPlugins(1))
+  .use(authorizationPlugins())
   .get('/:id', async ({ params: { id } }) => await getUserById(id))
   .get('/email/:email', async ({ params: { email } }) => await getUserByEmail(email))
   .get('/me', ({ store }) => {
