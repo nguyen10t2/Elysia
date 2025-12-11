@@ -1,0 +1,1 @@
+// Thiết kế bảng configPassword từ database
