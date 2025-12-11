@@ -4,8 +4,9 @@ import { generateRandomString } from "../helper/genRandomString";
 import { REFRESHTOKEN_TTL } from "../constants/time";
 import { saveRefreshToken } from "../services/authServices";
 import * as jose from "jose";
+import { ContextCookie } from "../types/context";
 
-const getToken = async(payload: jose.JWTPayload, expiry?: string) => {
+const getToken = async(payload?: jose.JWTPayload, expiry?: string) => {
     const signJwt = new jose.SignJWT(payload).setProtectedHeader({
         alg: "HS256",
     });
@@ -38,7 +39,7 @@ export const loginHandler = async (ctx: Context) => {
     const isSaved = await saveRefreshToken(
         user.id,
         refreshToken,
-        new Date(Date.now() + REFRESHTOKEN_TTL)
+        new Date(Date.now() + REFRESHTOKEN_TTL * 1000)
     );
 
     if (isSaved.error) {
@@ -46,8 +47,14 @@ export const loginHandler = async (ctx: Context) => {
         return { error: isSaved.error };
     }
 
+    (ctx.cookie as ContextCookie).refreshToken.set({
+        httpOnly: true,
+        secure: true,
+        maxAge: REFRESHTOKEN_TTL,
+        value: refreshToken,
+    });
+
     return {
         accessToken,
-        refreshToken,
     }
 }
