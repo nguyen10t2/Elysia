@@ -3,7 +3,7 @@ import * as jose from "jose";
 import { ContextStore } from "../types/context";
 
 
-export const authPlugins = (app: Elysia) => app
+export const authenticationPlugins = (app: Elysia) => app
   .onBeforeHandle(async (ctx) => {
 
     const authHeader = ctx.request.headers.get('Authorization');

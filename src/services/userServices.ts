@@ -12,7 +12,9 @@ export const getUserById = async (id: string) => {
       return { error: 'Not Found', status: 404 };
     }
 
-    return { data: rows[0] };
+    const { password, ...userWithoutPassword } = rows[0];
+
+    return { data: userWithoutPassword };
   } catch (error) {
     return { error: error, status: 500 };
   }
@@ -28,7 +30,9 @@ export const getUserByEmail = async (email: string) => {
       return { error: 'Not Found', status: 404 };
     }
 
-    return { data: rows[0] };
+    const { password, ...userWithoutPassword } = rows[0];
+
+    return { data: userWithoutPassword };
   } catch (error) {
     return { error: error, status: 500 };
   }

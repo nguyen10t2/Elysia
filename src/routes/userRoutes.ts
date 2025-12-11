@@ -2,9 +2,10 @@ import { Elysia } from "elysia";
 import {
   getUserById, getUserByEmail
 } from "../services/userServices";
-import { authPlugins } from "../plugins/authPlugins";
-import { ContextCookie, ContextStore } from "../types/context";
+import { authenticationPlugins } from "../plugins/authenticationPlugins";
+import { ContextStore } from "../types/context";
 import { REFRESHTOKEN_TTL } from "../constants/time";
+import { authorizationPlugins } from "../plugins/authorizationPlugins";
 
 
 export const userRoutes = new Elysia({
@@ -15,7 +16,8 @@ export const userRoutes = new Elysia({
     maxAge: REFRESHTOKEN_TTL,
     sign: 'refreshtoken',
   }})
-  .use(authPlugins)
+  .use(authenticationPlugins)
+  .use(authorizationPlugins())
   .get('/:id', async ({ params: { id } }) => await getUserById(id))
   .get('/email/:email', async ({ params: { email } }) => await getUserByEmail(email))
   .get('/me', ({ store }) => {
